@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I WANT TO SAY YOU SOMETHING 👇</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  height:100vh; overflow:hidden;
+  font-family: 'Arial', sans-serif;
+  display:flex; justify-content:center; align-items:center;
+  text-align:center; background:#0b0a1e; color:white; position:relative;
+}
+
+/* Avatar logo */
+#logo{
+  width:60px;
+  height:60px;
+  position:absolute;
+  top:20px;
+  left:20px;
+  border-radius:50%;
+  object-fit:cover;
+  cursor:pointer;
+  z-index:20;
+  border:2px solid #ff4d6d;
+  display:none;
+  transition: transform 0.3s;
+}
+#logo:hover{ transform:scale(1.1); }
+
+/* Profile box */
+#profileBox{
+  display:none;
+  position:absolute;
+  top:20px;
+  left:90px;
+  background:#1a1a2e;
+  padding:15px 20px;
+  border-radius:15px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.6);
+  color:white;
+  text-align:left;
+  font-size:1rem;
+  font-weight:bold;
+  font-style:italic;
+  max-width:250px;
+  line-height:1.4rem;
+  z-index:25;
+}
+
+/* Music toggle button */
+#musicToggle{
+  position:absolute;
+  top:20px;
+  right:20px;
+  background:#ff4d6d;
+  color:white;
+  border:none;
+  padding:10px 15px;
+  border-radius:25px;
+  font-weight:bold;
+  cursor:pointer;
+  z-index:30;
+  box-shadow:0 0 15px rgba(255,77,109,0.5);
+  transition:0.3s;
+  display:none;
+}
+#musicToggle:hover{transform:scale(1.1); background:#ff8fab;}
+
+/* Aurora, stars, moon, etc. */
+.aurora{
+  position:absolute;width:200%;height:200%;
+  background:linear-gradient(120deg, rgba(255,0,150,0.2), rgba(0,200,255,0.2), rgba(255,255,0,0.1));
+  filter:blur(150px);
+  animation:auroraMove 15s ease-in-out infinite alternate;
+  top:-50%; left:-50%; z-index:0;
+}
+@keyframes auroraMove{
+  0%{transform:translateX(0) translateY(0) rotate(0deg);}
+  50%{transform:translateX(20%) translateY(10%) rotate(10deg);}
+  100%{transform:translateX(0) translateY(0) rotate(0deg);}
+}
+
+/* Moon */
+.moon{
+  position:absolute; top:10%; right:10%;
+  width:140px; height:140px;
+  background: radial-gradient(circle at 40px 40px, #f0eecd, #d9d9d9, #a3a1a1);
+  border-radius:50%;
+  box-shadow: inset -15px -15px 40px rgba(0,0,0,0.4), 0 0 30px rgba(255,255,255,0.3);
+  z-index:2;
+  animation: moonGlow 4s ease-in-out infinite alternate;
+}
+@keyframes moonGlow{
+  0%{box-shadow:inset -15px -15px 40px rgba(0,0,0,0.4),0 0 30px rgba(255,255,255,0.2);}
+  100%{box-shadow:inset -15px -15px 40px rgba(0,0,0,0.5),0 0 50px rgba(255,255,255,0.5);}
+}
+
+/* Stars */
+.star{
+  position:absolute;border-radius:50%;background:white;
+  box-shadow:0 0 6px rgba(255,255,255,0.7);
+  animation:twinkle 2s infinite alternate;transition:0.3s;
+}
+@keyframes twinkle{
+  0%{opacity:0.3;}50%{opacity:1;}100%{opacity:0.3;}
+}
+
+/* Card and buttons */
+.paper-card{
+  background:#fff0f5;color:#ff4d6d;padding:25px 30px;border-radius:15px;
+  box-shadow:0 10px 20px rgba(0,0,0,0.4); display:none; max-width:500px; font-weight:bold;
+  font-size:1.5rem; text-shadow:2px 2px 10px rgba(0,0,0,0.5);
+  z-index:5; line-height:1.5rem; white-space:pre-wrap;
+}
+button{
+  background:linear-gradient(90deg,#ff4d6d,#ff8fab); color:white;border:none;
+  padding:12px 25px;font-size:1.2rem;border-radius:30px;cursor:pointer;margin:8px;
+  box-shadow:0 0 20px rgba(255,77,109,0.6);transition:0.4s;
+}
+button:hover{transform:scale(1.1);}
+.option-btn{background:linear-gradient(90deg,#ff8fab,#ff4d6d);}
+
+/* Rose fall */
+@keyframes fall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  50% { transform: translateY(50vh) rotate(180deg) translateX(10px); }
+  100% { transform: translateY(100vh) rotate(360deg) translateX(-10px); opacity: 0; }
+}
+
+/* Love letter */
+.love-letter{
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  background:#0b0a1e; color:#ff4d6d; padding:30px; border-radius:20px; max-width:450px;
+  font-size:1.2rem; font-weight:bold; font-style:italic; text-shadow:1px 1px 4px rgba(0,0,0,0.5);
+  display:none; z-index:10; box-shadow:0 10px 20px rgba(0,0,0,0.5);
+  animation:fadeIn 1.5s ease-in forwards;
+  line-height:1.5rem; white-space:pre-wrap;
+}
+@keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+
+.center-container{z-index:4;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;width:100%;max-width:600px;}
+</style>
+</head>
+<body>
+
+<!-- Music toggle button -->
+<button id="musicToggle">🔊 Music ON</button>
+
+<!-- Music -->
+<audio id="bgMusic" loop>
+  <source src="BIBASH JK-LONELY REMIX.mp4" type="audio/mpeg">
+</audio>
+
+<!-- Logo -->
+<img src="IMG_20251013_154859.jpg" id="logo" alt="User Logo">
+
+<!-- Profile Box -->
+<div id="profileBox">
+USERNAME : 💔<br>
+NAME : MTDRAGON22<br>
+BIO : 🗣️ :💭 <span style="font-weight:bold;font-style:italic;">sɪʟᴇɴᴄᴇ ɪs ɴᴏᴛ ᴀʟᴡᴀʏs ᴇɢᴏ, sᴏᴍᴇᴛɪᴍᴇs ɪᴛ ʜɪᴅᴇs ᴀ ʟᴏᴛ ᴏꜰ ᴘᴀɪɴ 💔</span><br><br>
+<a href="https://www.facebook.com/share/1JsBpdyC2Q/" target="_blank" class="profile-link-inline">FB</a><br>
+<a href="https://www.instagram.com/mtdragon22?igsh=MXBuZG40cHE4Mjg1Zw==" target="_blank" class="profile-link-inline">IG</a><br>
+<a href="https://www.tiktok.com/@hari_gautam_?_r=1&_t=ZS-917ZB08XF8a" target="_blank" class="profile-link-inline">TT</a>
+</div>
+
+<!-- Background elements -->
+<div class="aurora"></div>
+<div class="moon"></div>
+<div id="stars"></div>
+
+<!-- Main -->
+<div class="center-container">
+  <p id="intro" style="font-size:1.3rem; color:#ff8fab; font-weight:bold; font-style:italic; margin-bottom:10px;">ɪ ᴡᴀɴᴛ ᴛᴏ sᴀʏ ʏᴏᴜ sᴏᴍᴇᴛʜɪɴɢ 🤕</p>
+  <div class="paper-card" id="proposalCard"></div>
+  <div id="options" style="display:none; margin-top:20px;">
+    <p style="font-size:1.5rem; color:#ff4d6d;">ᴅᴏ ʏᴏᴜ ʟᴏᴠᴇ ᴍᴇ? 💘</p>
+    <button class="option-btn" onclick="selectYes()">ʏᴇs 💖</button>
+    <button class="option-btn" onclick="selectNo()">ɴᴏ 💔</button>
+  </div>
+  <p id="result" style="font-size:1.5rem; color:white; margin-top:20px;"></p>
+  <button id="revealBtn" onclick="showProposal()">💌 ʀᴇᴠᴇᴀʟ</button>
+</div>
+
+<div class="love-letter" id="loveLetter">
+💌💖 ᴅᴇᴀʀ s! 🌹
+
+ɪ ʟᴏᴠᴇ ʏᴏᴜ ᴍᴏʀᴇ ᴛʜᴀɴ ᴡᴏʀᴅs ᴄᴀɴ sᴀʏ 🌙  
+ʏᴏᴜ’ʀᴇ ᴍʏ ғᴀᴠᴏʀɪᴛᴇ ᴘᴇʀsᴏɴ, ᴍʏ ᴘᴇᴀᴄᴇ, ᴍʏ ғᴏʀᴇᴠᴇʀ 💐💫
+
+ɪꜰ ʏᴏᴜ ᴀᴄᴄᴇᴘᴛ, ᴍꜱɢ ᴍᴇ 💌
+</div>
+
+<script>
+// Stars
+for(let i=0;i<150;i++){
+  let star=document.createElement('div');
+  star.classList.add('star');
+  star.style.top=Math.random()*100+'vh';
+  star.style.left=Math.random()*100+'vw';
+  let size=Math.random()*3+1;
+  star.style.width=size+'px'; star.style.height=size+'px';
+  document.body.appendChild(star);
+}
+
+const music=document.getElementById('bgMusic');
+const musicBtn=document.getElementById('musicToggle');
+let isMusicPlaying=false;
+
+// Show music button after reveal
+function showMusicButton(){
+  musicBtn.style.display='block';
+}
+
+// Toggle music
+musicBtn.addEventListener('click',()=>{
+  if(isMusicPlaying){
+    music.pause();
+    musicBtn.textContent='🔇 Music OFF';
+    isMusicPlaying=false;
+  }else{
+    music.play();
+    musicBtn.textContent='🔊 Music ON';
+    isMusicPlaying=true;
+  }
+});
+
+// Typewriter proposal
+function showProposal(){
+  document.getElementById('intro').style.display='none';
+  const card=document.getElementById('proposalCard');
+  card.style.display='block';
+  document.getElementById('revealBtn').style.display='none';
+  document.getElementById('logo').style.display='block';
+  showMusicButton(); // show toggle button
+
+  // Start music automatically (user already clicked)
+  music.play();
+  isMusicPlaying=true;
+  musicBtn.textContent='🔊 Music ON';
+
+  const msg="💖 ʜᴇʏ s! 🌹 ɪ ᴊᴜsᴛ ᴡᴀɴᴛᴇᴅ ᴛᴏ ᴛᴇʟʟ ʏᴏᴜ...I LOVE YOU 💕✨";
+  card.textContent='';
+  let i=0;
+  let typer=setInterval(()=>{
+    if(i<msg.length){ card.textContent+=msg[i]; i++; }
+    else { clearInterval(typer); document.getElementById('options').style.display='block'; }
+  },100);
+}
+
+// Yes / No buttons
+function selectYes(){
+  document.getElementById('options').style.display='none';
+  document.getElementById('proposalCard').style.display='none';
+  document.getElementById('revealBtn').style.display='none';
+  document.getElementById('result').textContent='';
+  document.getElementById('logo').style.display='none';
+  document.getElementById('profileBox').style.display='none';
+  for (let i = 0; i < 60; i++) {
+    setTimeout(() => {
+      let rose = document.createElement('div');
+      rose.textContent = '🥀';
+      rose.style.position = 'fixed';
+      rose.style.left = Math.random() * 100 + 'vw';
+      rose.style.top = '-50px';
+      rose.style.fontSize = Math.random() * 25 + 20 + 'px';
+      rose.style.opacity = 0.9;
+      rose.style.animation = 'fall 2s linear forwards';
+      document.body.appendChild(rose);
+      setTimeout(() => rose.remove(), 2100);
+    }, i * 50);
+  }
+  setTimeout(() => {
+    document.getElementById('loveLetter').style.display = 'block';
+  }, 2100);
+}
+
+function selectNo(){
+  document.getElementById('result').textContent="💔 ɪᴛ's ᴏᴋᴀʏ… ᴍᴀʏʙᴇ ʟᴀᴛᴇʀ 💔";
+  document.getElementById('options').style.display='none';
+  document.getElementById('logo').style.display='none';
+  document.getElementById('profileBox').style.display='none';
+}
+
+// Logo click toggle
+document.getElementById('logo').addEventListener('click', () => {
+  const box = document.getElementById('profileBox');
+  box.style.display = box.style.display === 'block' ? 'none' : 'block';
+});
+</script>
+</body>
+</html>
