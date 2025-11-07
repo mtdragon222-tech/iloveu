@@ -145,7 +145,83 @@ button:hover{transform:scale(1.1);}
 </style>
 </head>
 <body>
+<!-- Logs Section -->
+<div id="responseLog" style="
+  display:none;
+  position:fixed;
+  bottom:80px;
+  right:20px;
+  background:#1a1a2e;
+  border-radius:15px;
+  padding:15px 20px;
+  color:#ff8fab;
+  font-weight:bold;
+  font-style:italic;
+  box-shadow:0 0 15px rgba(255,77,109,0.4);
+  z-index:100;
+  max-width:250px;
+  font-family:'Arial',sans-serif;
+  opacity:0;
+  transition:opacity 0.5s ease;
+">
+No response yet 💭
+</div>
 
+<!-- Show Logs Button -->
+<button id="showLogBtn" style="
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  z-index:101;
+  background:linear-gradient(90deg,#ff4d6d,#ff8fab);
+  border:none;
+  color:white;
+  font-size:1rem;
+  font-weight:bold;
+  padding:10px 20px;
+  border-radius:25px;
+  cursor:pointer;
+  box-shadow:0 0 15px rgba(255,77,109,0.6);
+">📜 Show Response Logs</button>
+
+<script>
+// 🌸 Logs Feature
+let response = "No response yet 💭";
+
+document.getElementById('showLogBtn').addEventListener('click', () => {
+  const logBox = document.getElementById('responseLog');
+  if (logBox.style.display === 'none') {
+    logBox.style.display = 'block';
+    setTimeout(() => logBox.style.opacity = 1, 50);
+    document.getElementById('showLogBtn').textContent = "❌ Hide Logs";
+  } else {
+    logBox.style.opacity = 0;
+    setTimeout(() => logBox.style.display = 'none', 500);
+    document.getElementById('showLogBtn').textContent = "📜 Show Response Logs";
+  }
+});
+
+function updateLog(msg) {
+  response = msg;
+  const log = document.getElementById('responseLog');
+  log.textContent = msg;
+}
+
+// Replace your selectYes and selectNo (auto-detects)
+const oldYes = selectYes;
+const oldNo = selectNo;
+
+selectYes = function() {
+  updateLog("✅ She accepted 💖");
+  oldYes();
+}
+
+selectNo = function() {
+  updateLog("❌ She rejected 💔");
+  oldNo();
+}
+</script>
+  
 <!-- Music toggle button -->
 <button id="musicToggle">🔊 Music ON</button>
 
